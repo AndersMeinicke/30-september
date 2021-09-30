@@ -1,0 +1,148 @@
+package com.company;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Main
+{
+    static Scanner scan;
+    private static String[] text;
+    public static void main(String[] args) throws FileNotFoundException
+    {
+        File file = new File("data.txt");
+        scan = new Scanner(file);
+
+        String inputFromFile = "";
+
+        while (scan.hasNextLine())                                // checks if theres more lines in the file
+        {
+            inputFromFile += scan.nextLine();                     // adds each line to the inputFromFile string.
+        }
+
+        text = inputFromFile.split(" ");                    // Creates and array of strings, where each element is a single word from the file.
+        System.out.println(text.length);
+
+        printWordsStartingWith("Ø");
+
+        printWordsOfLength(3);
+
+
+        //test dine metoder ved at kalde dem her:
+        printLongestWord();
+        printFirstHalfOfEachWord();
+        printMostFrequentLetter();
+        printLessFrequentLetter();
+
+    }
+
+    private static void printWordsOfLength(int l)
+    {
+        boolean wordisvalid = true;
+
+        for (String s : text)
+        {
+            if (s.length() == l)
+            {
+                if (s.contains(",") || s.contains("."))
+                {
+                    wordisvalid = false;
+                }
+
+                if (wordisvalid)
+                {
+                    System.out.println(s);
+                }
+            }
+        }
+    }
+
+    private static void printWordsStartingWith(String pattern)
+    {
+        for (String s : text) // for each word in text
+        {
+            if (s.startsWith(pattern) || s.startsWith(pattern.toLowerCase()))
+            {
+                System.out.println(s);
+            }
+        }
+    }
+
+    //skriv dine metoder herunder:
+private  static  void printLongestWord() throws FileNotFoundException {
+    int theLongest = 0;
+    String longestString = null;
+  for(int i = 0; i < text.length; i++){
+      String[] words = text[i].split(" ");
+      int wordLength = words[0].length();
+      if (wordLength > theLongest) {
+          theLongest = wordLength;
+          longestString = words[0];
+          //System.out.println(longestString);
+      }
+      if(i == text.length-1){
+          System.out.println(text.length +" "+ i);
+          System.out.println(longestString);
+      }
+      }
+
+  }
+  private static void printFirstHalfOfEachWord(){
+      int halfWord;
+      String printHalf;
+      for(int i = 0; i < text.length; i++){
+          String[] words = text[i].split(" ");
+          halfWord = words[0].length()/2;
+          printHalf =words[0].substring(0,halfWord);
+          System.out.println(printHalf);
+          }
+    }
+  private  static  void printMostFrequentLetter(){
+        int mostFrequent = 0;
+        char bestLetter = '0';
+        char [] letter = "abcdefghijklmnopqrstuvwxyzæøå".toCharArray();
+        int [] numbersInLetters = new int[29];
+        for (int i = 0; i< text.length; i++) {
+            String[] words = text[i].split(" ");
+            for(int j = 0; j< letter.length; j++){
+                for(int k = 0; k < words[0].length();k++) {
+                    if (letter[j] == words[0].charAt(k)) {
+                        numbersInLetters[j] ++;
+                    }
+                }
+                if(numbersInLetters[j] > mostFrequent) {
+                    mostFrequent = numbersInLetters[j];
+                    bestLetter = letter[j];
+                }
+                }
+            if(i == text.length-1){
+                System.out.println("Det mest brugte bogstav er " + bestLetter + " og det er brugt " + mostFrequent + " gange");
+            }
+            }
+        }
+  private static void printLessFrequentLetter(){
+      int mostFrequent = 100; // denne værdi er lige meget, den skal bare være stor nok så processen kan begynde
+      char bestLetter = '0';
+      char [] letter = "abcdefghijklmnopqrstuvwxyzæøå".toCharArray();
+      int [] numbersInLetters = new int[29];
+      for (int i = 0; i< text.length; i++) {
+          String[] words = text[i].split(" ");
+          for(int j = 0; j< letter.length; j++){
+              for(int k = 0; k < words[0].length();k++) {
+                  if (letter[j] == words[0].charAt(k)) {
+                      numbersInLetters[j] ++;
+                  }
+              }
+              if(numbersInLetters[j] < mostFrequent && i == text.length-1) {
+                  mostFrequent = numbersInLetters[j];
+                  bestLetter = letter[j];
+              }
+          }
+          if(i == text.length-1){
+              System.out.println("Det mindst brugte bogstav er " + bestLetter + " og det er brugt " + mostFrequent + " gange");
+          }
+      }
+  }
+        }
+
+
